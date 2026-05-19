@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Álgebra Relacional & Entity Framework - Infografía Interactiva</title>
+    <!-- Tailwind CSS para el diseño responsivo de última generación -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts para una tipografía ultra limpia -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Alpine.js para la interactividad sin recargas -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- KaTeX para renderizar expresiones matemáticas del Álgebra Relacional impecablemente -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            navy: '#0B132B',
+                            darkBlue: '#1C2541',
+                            blue: '#3A506B',
+                            teal: '#5BC0BE',
+                            gold: '#D4AF37',
+                            accent: '#6C5CE7'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b1120;
+            color: #f8fafc;
+        }
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="min-h-screen selection:bg-teal-500 selection:text-navy" x-data="appState()">
+
+    <!-- HEADER PRINCIPAL ACADÉMICO -->
+    <header class="relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-b border-slate-800 py-12 px-6">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.08),transparent_45%)]"></div>
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-500 via-indigo-500 to-gold-400"></div>
+        
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+            <!-- Logos y Datos de la Institución -->
+            <div class="flex items-center gap-4">
+                <div class="w-16 h-16 bg-slate-800 rounded-xl flex items-center justify-center p-2 border border-slate-700 shadow-xl shadow-slate-950/50">
+                    <!-- SVG Escudo Andina -->
+                    <svg viewBox="0 0 100 100" class="w-full h-full text-teal-400 fill-current">
+                        <path d="M50 5 L90 25 L90 75 L50 95 L10 75 L10 25 Z" fill="none" stroke="currentColor" stroke-width="6"/>
+                        <path d="M50 15 L80 30 L80 70 L50 85 L20 70 L20 30 Z" opacity="0.5"/>
+                        <text x="50" y="58" font-family="sans-serif" font-weight="bold" font-size="24" text-anchor="middle" fill="currentColor">UAC</text>
+                    </svg>
+                </div>
+                <div>
+                    <span class="text-xs font-bold tracking-wider text-teal-400 uppercase">Universidad Andina del Cusco</span>
+                    <h1 class="text-xl font-extrabold text-slate-100">Escuela de Ingeniería de Sistemas</h1>
+                    <p class="text-sm text-slate-400 font-medium">Modelado de Base de Datos • Semestre Académico</p>
+                </div>
+            </div>
+
+            <!-- Título del Proyecto -->
+            <div class="text-center md:text-right">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-xs text-amber-400 font-semibold mb-3">
+                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                    Taller 3.2 • Álgebra Relacional
+                </div>
+                <h2 class="text-3xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-slate-400">
+                    Operaciones Unarias y Binarias
+                </h2>
+                <p class="text-sm text-slate-400 mt-1">Implementación Declarativa con <strong class="text-teal-400">ADO.NET Entity Framework</strong></p>
+            </div>
+        </div>
+    </header>
+
+    <!-- PANEL DEL GRUPO "LAS FUERZAS" -->
+    <section class="bg-slate-900 border-b border-slate-800/80 py-4 px-6 text-xs text-slate-400">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <span class="font-bold text-slate-200">GRUPO:</span>
+                <span class="px-2.5 py-0.5 rounded bg-indigo-950/60 border border-indigo-800/50 text-indigo-300 font-semibold tracking-wide">LAS FUERZAS</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-x-6 gap-y-2 justify-center">
+                <span>👤 Araoz Tapia Sebastián Joaquín (100%)</span>
+                <span>👤 León Tarco Rogger Willian (100%)</span>
+                <span>👤 Quispe Callañaupa Yefry Ciaran (100%)</span>
+            </div>
+            <div class="text-slate-500">
+                📍 Cusco, Perú
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN INTERACTIVA PRINCIPAL -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+        
+        <!-- PARADIGMA TEÓRICO: EQUIVALENCIA DIRECTA -->
+        <section class="space-y-6">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-100 tracking-tight flex items-center gap-2">
+                        <span class="text-teal-400">01.</span> El Puente Teórico-Práctico
+                    </h3>
+                    <p class="text-slate-400 text-sm mt-1">Entiende cómo se traducen las operaciones algebraicas formales a consultas LINQ y SQL.</p>
+                </div>
+            </div>
+
+            <!-- Grid de Equivalencias de Operaciones -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- SELECCIÓN -->
+                <div class="bg-slate-900/50 hover:bg-slate-900 border border-slate-800 rounded-2xl p-6 transition-all duration-300 group hover:border-teal-500/30">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-3xl font-extrabold text-teal-400 bg-slate-950 w-12 h-12 rounded-xl flex items-center justify-center border border-slate-800">σ</span>
+                        <span class="text-xs font-bold px-2 py-1 rounded bg-teal-950/50 text-teal-300 border border-teal-800/50">UNARIA</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-200">Selección (Restriction)</h4>
+                    <p class="text-slate-400 text-xs mt-2 leading-relaxed">Filtra tuplas (filas) que cumplen con un predicado específico. Conserva la aridad original.</p>
+                    <div class="mt-4 pt-4 border-t border-slate-800 space-y-2 text-xs">
+                        <div class="flex justify-between"><span class="text-slate-500">SQL:</span> <code class="text-indigo-300 font-mono font-bold">WHERE condición</code></div>
+                        <div class="flex justify-between"><span class="text-slate-500">LINQ:</span> <code class="text-teal-400 font-mono font-bold">.Where(x => ...)</code></div>
+                    </div>
+                </div>
+
+                <!-- PROYECCIÓN -->
+                <div class="bg-slate-900/50 hover:bg-slate-900 border border-slate-800 rounded-2xl p-6 transition-all duration-300 group hover:border-indigo-500/30">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-3xl font-extrabold text-indigo-400 bg-slate-950 w-12 h-12 rounded-xl flex items-center justify-center border border-slate-800">π</span>
+                        <span class="text-xs font-bold px-2 py-1 rounded bg-indigo-950/50 text-indigo-300 border border-indigo-800/50">UNARIA</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-200">Proyección</h4>
+                    <p class="text-slate-400 text-xs mt-2 leading-relaxed">Extrae columnas (atributos) específicos de la relación de entrada, descartando duplicados.</p>
+                    <div class="mt-4 pt-4 border-t border-slate-800 space-y-2 text-xs">
+                        <div class="flex justify-between"><span class="text-slate-500">SQL:</span> <code class="text-indigo-300 font-mono font-bold">SELECT campos</code></div>
+                        <div class="flex justify-between"><span class="text-slate-500">LINQ:</span> <code class="text-indigo-400 font-mono font-bold">.Select(x => new { ... })</code></div>
+                    </div>
+                </div>
+
+                <!-- RENOMBRAMIENTO -->
+                <div class="bg-slate-900/50 hover:bg-slate-900 border border-slate-800 rounded-2xl p-6 transition-all duration-300 group hover:border-amber-500/30">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-3xl font-extrabold text-amber-400 bg-slate-950 w-12 h-12 rounded-xl flex items-center justify-center border border-slate-800">ρ</span>
+                        <span class="text-xs font-bold px-2 py-1 rounded bg-amber-950/50 text-amber-300 border border-amber-800/50">UNARIA</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-200">Renombramiento</h4>
+                    <p class="text-slate-400 text-xs mt-2 leading-relaxed">Modifica el nombre de los atributos o de la relación para facilitar cálculos o uniones complejas.</p>
+                    <div class="mt-4 pt-4 border-t border-slate-800 space-y-2 text-xs">
+                        <div class="flex justify-between"><span class="text-slate-500">SQL:</span> <code class="text-indigo-300 font-mono font-bold">AS alias</code></div>
+                        <div class="flex justify-between"><span class="text-slate-500">LINQ:</span> <code class="text-amber-400 font-mono font-bold">new { Alias = x.Original }</code></div>
+                    </div>
+                </div>
+
+                <!-- UNIÓN -->
+                <div class="bg-slate-900/50 hover:bg-slate-900 border border-slate-800 rounded-2xl p-6 transition-all duration-300 group hover:border-emerald-500/30">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-3xl font-extrabold text-emerald-400 bg-slate-950 w-12 h-12 rounded-xl flex items-center justify-center border border-slate-800">∪</span>
+                        <span class="text-xs font-bold px-2 py-1 rounded bg-emerald-950/50 text-emerald-300 border border-emerald-800/50">BINARIA</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-200">Unión</h4>
+                    <p class="text-slate-400 text-xs mt-2 leading-relaxed">Consolida tuplas de dos esquemas compatibles en una única relación. Elimina duplicados.</p>
+                    <div class="mt-4 pt-4 border-t border-slate-800 space-y-2 text-xs">
+                        <div class="flex justify-between"><span class="text-slate-500">SQL:</span> <code class="text-indigo-300 font-mono font-bold">UNION</code></div>
+                        <div class="flex justify-between"><span class="text-slate-500">LINQ:</span> <code class="text-emerald-400 font-mono font-bold">RelA.Union(RelB)</code></div>
+                    </div>
+                </div>
+
+                <!-- DIFERENCIA -->
+                <div class="bg-slate-900/50 hover:bg-slate-900 border border-slate-800 rounded-2xl p-6 transition-all duration-300 group hover:border-rose-500/30">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-3xl font-extrabold text-rose-400 bg-slate-950 w-12 h-12 rounded-xl flex items-center justify-center border border-slate-800">−</span>
+                        <span class="text-xs font-bold px-2 py-1 rounded bg-rose-950/50 text-rose-300 border border-rose-800/50">BINARIA</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-200">Diferencia</h4>
+                    <p class="text-slate-400 text-xs mt-2 leading-relaxed">Extrae elementos presentes en la primera relación que no se encuentren en la segunda.</p>
+                    <div class="mt-4 pt-4 border-t border-slate-800 space-y-2 text-xs">
+                        <div class="flex justify-between"><span class="text-slate-500">SQL:</span> <code class="text-indigo-300 font-mono font-bold">EXCEPT</code></div>
+                        <div class="flex justify-between"><span class="text-slate-500">LINQ:</span> <code class="text-rose-400 font-mono font-bold">RelA.Except(RelB)</code></div>
+                    </div>
+                </div>
+
+                <!-- PRODUCTO CARTESIANO -->
+                <div class="bg-slate-900/50 hover:bg-slate-900 border border-slate-800 rounded-2xl p-6 transition-all duration-300 group hover:border-cyan-500/30">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-3xl font-extrabold text-cyan-400 bg-slate-950 w-12 h-12 rounded-xl flex items-center justify-center border border-slate-800">×</span>
+                        <span class="text-xs font-bold px-2 py-1 rounded bg-cyan-950/50 text-cyan-300 border border-cyan-800/50">BINARIA</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-slate-200">Producto Cartesiano</h4>
+                    <p class="text-slate-400 text-xs mt-2 leading-relaxed">Genera todas las combinaciones posibles entre las tuplas de dos relaciones independientes.</p>
+                    <div class="mt-4 pt-4 border-t border-slate-800 space-y-2 text-xs">
+                        <div class="flex justify-between"><span class="text-slate-500">SQL:</span> <code class="text-indigo-300 font-mono font-bold">CROSS JOIN</code></div>
+                        <div class="flex justify-between"><span class="text-slate-500">LINQ:</span> <code class="text-cyan-400 font-mono font-bold">from x in A from y in B ...</code></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- LAB INTERACTIVO DE CONSULTAS -->
+        <section class="space-y-6">
+            <div>
+                <h3 class="text-2xl font-bold text-slate-100 tracking-tight flex items-center gap-2">
+                    <span class="text-teal-400">02.</span> Taller Experimental de Consultas
+                </h3>
+                <p class="text-slate-400 text-sm mt-1">Explora de manera práctica cada botón de la interfaz del sistema. Selecciona una base de datos y un caso de prueba para analizar el comportamiento matemático y técnico.</p>
+            </div>
+
+            <!-- Dashboard de Control Interactivo -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Columna Izquierda: Filtros y Botones de Ejercicio -->
+                <div class="lg:col-span-4 bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-6">
+                    
+                    <!-- Selector de Contexto de Base de Datos -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Base de Datos de Estudio</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button 
+                                @click="setDatabase('Northwind')"
+                                :class="selectedDb === 'Northwind' ? 'bg-indigo-600 text-white font-bold' : 'bg-slate-950 text-slate-400 border border-slate-800 hover:bg-slate-800'"
+                                class="py-2.5 px-4 rounded-xl text-xs transition-all duration-200">
+                                📦 Northwind
+                            </button>
+                            <button 
+                                @click="setDatabase('Pubs')"
+                                :class="selectedDb === 'Pubs' ? 'bg-indigo-600 text-white font-bold' : 'bg-slate-950 text-slate-400 border border-slate-800 hover:bg-slate-800'"
+                                class="py-2.5 px-4 rounded-xl text-xs transition-all duration-200">
+                                📚 Pubs
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Selector de Categoría de Operación -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2 font-sans">Tipo de Operación</label>
+                        <div class="flex flex-wrap gap-1.5">
+                            <template x-for="cat in categories" :key="cat">
+                                <button 
+                                    @click="selectedCategory = cat"
+                                    :class="selectedCategory === cat ? 'bg-slate-100 text-slate-950 font-bold' : 'bg-slate-950 text-slate-400 border border-slate-800 hover:bg-slate-800'"
+                                    class="py-1.5 px-3 rounded-lg text-[11px] transition-all duration-200 uppercase"
+                                    x-text="cat">
+                                </button>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Buscador / Filtro de Ejercicios -->
+                    <div class="pt-4 border-t border-slate-800">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Selecciona un Ejercicio</label>
+                        <div class="space-y-2 max-h-[380px] overflow-y-auto pr-1">
+                            <template x-for="ex in filteredExercises()" :key="ex.id">
+                                <button 
+                                    @click="selectExercise(ex)"
+                                    :class="activeExercise.id === ex.id ? 'bg-gradient-to-r from-slate-950 to-slate-900 border-l-4 border-teal-500 text-slate-100' : 'bg-slate-950/40 text-slate-400 border-l-2 border-slate-800 hover:bg-slate-900/60'"
+                                    class="w-full text-left p-3 rounded-r-lg border-y border-r border-slate-850/80 transition-all duration-150 flex flex-col gap-1">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[10px] font-bold text-teal-500 font-mono" x-text="'BOTÓN ' + ex.buttonNumber"></span>
+                                        <span class="text-[9px] font-semibold px-1.5 py-0.5 rounded bg-slate-850 uppercase" x-text="ex.type"></span>
+                                    </div>
+                                    <span class="text-xs font-semibold line-clamp-2" x-text="ex.title"></span>
+                                </button>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Visualizador del Ejercicio en Detalle -->
+                <div class="lg:col-span-8 space-y-6">
+                    
+                    <!-- Tarjeta Principal del Ejercicio -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
+                        
+                        <!-- Barra de Estado del Ejercicio -->
+                        <div class="bg-slate-950 px-6 py-4 border-b border-slate-850 flex items-center justify-between flex-wrap gap-4">
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs font-extrabold uppercase px-2.5 py-1 rounded bg-indigo-950 text-indigo-400 border border-indigo-800" x-text="selectedDb"></span>
+                                <span class="text-xs font-bold text-slate-500">/</span>
+                                <span class="text-xs font-semibold text-slate-300" x-text="activeExercise.type.toUpperCase()"></span>
+                            </div>
+                            <div class="text-xs font-mono font-bold text-gold-400">
+                                ⚙️ Ejecución en dgv
+                            </div>
+                        </div>
+
+                        <!-- Información y Expresión Algebraica -->
+                        <div class="p-6 md:p-8 space-y-6">
+                            <div class="space-y-2">
+                                <span class="text-xs font-black text-teal-400 tracking-widest uppercase" x-text="'CASO DE ESTUDIO #' + activeExercise.buttonNumber"></span>
+                                <h4 class="text-xl md:text-2xl font-extrabold text-slate-100" x-text="activeExercise.title"></h4>
+                                <p class="text-slate-400 text-sm leading-relaxed" x-text="activeExercise.description"></p>
+                            </div>
+
+                            <!-- Notación Matemática LaTeX con KaTeX -->
+                            <div class="p-4 rounded-2xl bg-slate-950 border border-slate-850 flex items-center justify-between">
+                                <div>
+                                    <span class="text-[10px] font-bold tracking-wider text-slate-500 uppercase block mb-1">Álgebra Relacional Formal</span>
+                                    <!-- Contenedor donde renderizar KaTeX -->
+                                    <div class="text-lg font-bold text-slate-100 font-serif" :id="'katex-' + activeExercise.id" x-html="renderKatex(activeExercise.mathSymbol, 'katex-' + activeExercise.id)"></div>
+                                </div>
+                                <div class="p-2 rounded bg-indigo-950/40 text-indigo-400 text-xs font-mono">
+                                    <span x-text="activeExercise.mathSymbol"></span>
+                                </div>
+                            </div>
+
+                            <!-- Tabs para elegir Código C# o Vista de Base de Datos -->
+                            <div x-data="{ codeTab: 'csharp' }" class="space-y-4">
+                                <div class="flex border-b border-slate-800">
+                                    <button 
+                                        @click="codeTab = 'csharp'"
+                                        :class="codeTab === 'csharp' ? 'border-b-2 border-teal-500 text-teal-400 font-bold' : 'text-slate-500 hover:text-slate-300'"
+                                        class="pb-3 px-4 text-xs tracking-wider uppercase transition-all duration-200">
+                                        💻 Implementación en C# (LINQ)
+                                    </button>
+                                    <button 
+                                        @click="codeTab = 'preview'"
+                                        :class="codeTab === 'preview' ? 'border-b-2 border-teal-500 text-teal-400 font-bold' : 'text-slate-500 hover:text-slate-300'"
+                                        class="pb-3 px-4 text-xs tracking-wider uppercase transition-all duration-200">
+                                        📊 Vista Previa de Datos de Salida (Simulación)
+                                    </button>
+                                </div>
+
+                                <!-- Contenido de Tab: C# Code -->
+                                <div x-show="codeTab === 'csharp'" class="rounded-2xl overflow-hidden bg-slate-950 border border-slate-850">
+                                    <div class="bg-slate-900 px-4 py-2 border-b border-slate-850 flex justify-between items-center">
+                                        <span class="text-[10px] font-bold font-mono text-slate-500">ADO.NET Entity Framework</span>
+                                        <button @click="copyToClipboard(activeExercise.code)" class="text-[10px] hover:text-teal-400 text-slate-400 transition-colors flex items-center gap-1 font-mono font-bold">
+                                            📋 Copiar Código
+                                        </button>
+                                    </div>
+                                    <pre class="p-4 md:p-6 overflow-x-auto text-xs md:text-sm font-mono text-slate-300 leading-relaxed"><code x-text="activeExercise.code"></code></pre>
+                                </div>
+
+                                <!-- Contenido de Tab: Simulador de Datos -->
+                                <div x-show="codeTab === 'preview'" class="space-y-4">
+                                    <div class="bg-slate-950 border border-slate-850 rounded-2xl overflow-hidden">
+                                        <div class="overflow-x-auto">
+                                            <table class="w-full text-xs text-left text-slate-300">
+                                                <thead class="bg-slate-900 text-[10px] uppercase text-slate-500 tracking-wider">
+                                                    <tr>
+                                                        <template x-for="header in activeExercise.resultsHeader" :key="header">
+                                                            <th class="py-3 px-4" x-text="header"></th>
+                                                        </template>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="divide-y divide-slate-850">
+                                                    <template x-for="(row, rIndex) in activeExercise.resultsRows" :key="rIndex">
+                                                        <tr class="hover:bg-slate-900/40 transition-colors">
+                                                            <template x-for="(cell, cIndex) in row" :key="cIndex">
+                                                                <td class="py-3 px-4 font-mono font-medium text-slate-200" x-text="cell"></td>
+                                                            </template>
+                                                        </tr>
+                                                    </template>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <span class="text-[10px] text-slate-500 italic block text-right">* Registros representativos del volumen de resultados procesados en Visual Studio</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE ESQUEMAS DE BASE DE DATOS (NORTHWIND & PUBS) -->
+        <section class="space-y-6">
+            <div>
+                <h3 class="text-2xl font-bold text-slate-100 tracking-tight flex items-center gap-2">
+                    <span class="text-teal-400">03.</span> Esquemas de Datos Utilizados
+                </h3>
+                <p class="text-slate-400 text-sm mt-1">Diagramas de entidad-relación representados en clases mapeadas por el ORM de Entity Framework.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Northwind DB Card -->
+                <div class="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
+                    <div class="flex items-center gap-3">
+                        <span class="text-3xl">📦</span>
+                        <div>
+                            <h4 class="text-lg font-bold text-slate-200">Base de Datos Northwind</h4>
+                            <p class="text-xs text-slate-400">Modelo ERP estándar para importación/exportación y ventas.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-800 text-indigo-400 uppercase">Customers</span>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-800 text-indigo-400 uppercase">Employees</span>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-800 text-indigo-400 uppercase">Orders</span>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-800 text-indigo-400 uppercase">Products</span>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-800 text-indigo-400 uppercase">Category</span>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-800 text-indigo-400 uppercase">Shippers</span>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-slate-950 text-xs text-slate-400 space-y-2 border border-slate-850">
+                        <p class="font-semibold text-slate-300">Análisis Técnico:</p>
+                        <p class="leading-relaxed">Permite probar relaciones de negocio complejas. Conexión de tablas transaccionales (<code class="text-amber-400">Orders</code>) con catálogos (<code class="text-amber-400">Products</code>) mediante llaves compuestas en álgebra binaria.</p>
+                    </div>
+                </div>
+
+                <!-- Pubs DB Card -->
+                <div class="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-6 space-y-4 shadow-xl">
+                    <div class="flex items-center gap-3">
+                        <span class="text-3xl">📚</span>
+                        <div>
+                            <h4 class="text-lg font-bold text-slate-200">Base de Datos Pubs</h4>
+                            <p class="text-xs text-slate-400">Modelo editorial enfocado en autores, libros e ingresos por regalías.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-800 text-teal-400 uppercase">Authors</span>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-800 text-teal-400 uppercase">Titles</span>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-800 text-teal-400 uppercase">Publishers</span>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-800 text-teal-400 uppercase">Stores</span>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-800 text-teal-400 uppercase">Employee</span>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-slate-800 text-teal-400 uppercase">Discounts</span>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-slate-950 text-xs text-slate-400 space-y-2 border border-slate-850">
+                        <p class="font-semibold text-slate-300">Análisis Técnico:</p>
+                        <p class="leading-relaxed">Ideal para operaciones estadísticas preliminares, cálculos relacionales cruzados y diferencia de conjuntos (operador <code class="text-amber-400">Except</code>) debido a su distribución regional altamente focalizada.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONCLUSIONES METODOLÓGICAS -->
+        <section class="bg-slate-900/40 border border-slate-800 rounded-3xl p-8 relative overflow-hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(20,184,166,0.04),transparent_35%)]"></div>
+            <div class="max-w-4xl space-y-6 relative z-10">
+                <h3 class="text-2xl font-bold text-slate-100 flex items-center gap-2">
+                    <span class="text-teal-400">04.</span> Conclusiones de Modelamiento
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-slate-400">
+                    <div class="space-y-4">
+                        <div class="flex gap-3">
+                            <span class="text-teal-500 font-bold">1.</span>
+                            <p class="leading-relaxed"><strong class="text-slate-200">Abstracción de Datos:</strong> El álgebra relacional proporciona la solidez matemática requerida, y Entity Framework permite programar de forma declarativa sin descuidar el rendimiento de la consulta final generada por el motor SQL.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="text-teal-500 font-bold">2.</span>
+                            <p class="leading-relaxed"><strong class="text-slate-200">Eficiencia Unaria:</strong> La selección ($\sigma$) y proyección ($\pi$) en LINQ minimizan el consumo de red transfiriendo únicamente las columnas y filas estrictamente requeridas de las tablas.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex gap-3">
+                            <span class="text-teal-500 font-bold">3.</span>
+                            <p class="leading-relaxed"><strong class="text-slate-200">Robustez en Álgebra Binaria:</strong> Operaciones como la diferencia (<code class="text-teal-400">Except</code>) y unión (<code class="text-teal-400">Union</code>) facilitan el desarrollo de sistemas robustos para reportes analíticos complejos sin realizar múltiples iteraciones en memoria de cliente.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="text-teal-500 font-bold">4.</span>
+                            <p class="leading-relaxed"><strong class="text-slate-200">Metodología de Desarrollo:</strong> Implementar estos conceptos directamente en componentes visuales (C# Windows Forms + DataGridView) demuestra el valor inmediato de la teoría relacional en el software comercial moderno.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 border-t border-slate-900 py-8 px-6 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto space-y-2">
+            <p>© 2026 Universidad Andina del Cusco. Desarrollado con excelencia académica para Modelado de Bases de Datos.</p>
+            <p class="font-mono text-[10px]">Hugo Espetia Huamanga (Docente) • Grupo "Las fuerzas"</p>
+        </div>
+    </footer>
+
+    <!-- ALPINEJS LOGIC PARA GESTIÓN DE DATOS INTERACTIVOS -->
+    <script>
+        function appState() {
+            return {
+                selectedDb: 'Northwind',
+                selectedCategory: 'TODOS',
+                categories: ['TODOS', 'SELECCIÓN', 'PROYECCIÓN', 'RENOMBRAMIENTO', 'UNIÓN', 'DIFERENCIA', 'PRODUCTO CARTESIANO'],
+                activeExercise: {},
+                
+                // DATASET COMPLETO DE LOS 18 EJERCICIOS DEL INFORME
+                exercises: [
+                    // --- NORTHWIND ---
+                    {
+                        id: 'nw-sel-1',
+                        db: 'Northwind',
+                        type: 'selección',
+                        buttonNumber: 1,
+                        title: 'Clientes de México',
+                        description: 'Filtra las tuplas de la relación Customers buscando únicamente aquellas cuyo atributo de país coincide con "Mexico".',
+                        mathSymbol: '\\sigma_{\\text{Country} = \\text{"Mexico"}}(\\text{Customers})',
+                        code: 'using (NorthwindEntities northwind = new NorthwindEntities())\n{\n    var consulta = from C in northwind.Customers\n                   where C.Country == "Mexico"\n                   select C;\n                   \n    dgvNorthwind.DataSource = consulta.ToList();\n}',
+                        resultsHeader: ['CustomerID', 'CompanyName', 'ContactName', 'City', 'Country'],
+                        resultsRows: [
+                            ['ANATR', 'Ana Trujillo Emparedados y helados', 'Ana Trujillo', 'México D.F.', 'Mexico'],
+                            ['ANTON', 'Antonio Moreno Taquería', 'Antonio Moreno', 'México D.F.', 'Mexico'],
+                            ['CENTC', 'Centro comercial Moctezuma', 'Francisco Chang', 'México D.F.', 'Mexico'],
+                            ['PERIC', 'Pericles Comidas', 'Guillermo Fernández', 'México D.F.', 'Mexico'],
+                            ['TORTU', 'Tortuga Restaurante', 'Miguel Angel Paolino', 'México D.F.', 'Mexico']
+                        ]
+                    },
+                    {
+                        id: 'nw-sel-2',
+                        db: 'Northwind',
+                        type: 'selección',
+                        buttonNumber: 2,
+                        title: 'Empleados de Londres',
+                        description: 'Filtra las tuplas de la tabla Employees donde la residencia física de la ciudad del personal coincida con "London".',
+                        mathSymbol: '\\sigma_{\\text{City} = \\text{"London"}}(\\text{Employees})',
+                        code: 'using (NorthwindEntities northwind = new NorthwindEntities())\n{\n    var consulta = from E in northwind.Employees\n                   where E.City == "London"\n                   select E;\n                   \n    dgvNorthwind.DataSource = consulta.ToList();\n}',
+                        resultsHeader: ['EmployeeID', 'LastName', 'FirstName', 'Title', 'City'],
+                        resultsRows: [
+                            ['5', 'Buchanan', 'Steven', 'Sales Manager', 'London'],
+                            ['6', 'Suyama', 'Michael', 'Sales Representative', 'London'],
+                            ['7', 'King', 'Robert', 'Sales Representative', 'London'],
+                            ['9', 'Dodsworth', 'Anne', 'Sales Representative', 'London']
+                        ]
+                    },
+                    {
+                        id: 'nw-sel-3',
+                        db: 'Northwind',
+                        type: 'selección',
+                        buttonNumber: 3,
+                        title: 'Órdenes enviadas a Francia',
+                        description: 'Selecciona las tuplas de órdenes cuya dirección de flete final esté registrada hacia el país europeo Francia.',
+                        mathSymbol: '\\sigma_{\\text{ShipCountry} = \\text{"France"}}(\\text{Orders})',
+                        code: 'using (NorthwindEntities northwind = new NorthwindEntities())\n{\n    var consulta = from O in northwind.Orders\n                   where O.ShipCountry == "France"\n                   select O;\n                   \n    dgvNorthwind.DataSource = consulta.ToList();\n}',
+                        resultsHeader: ['OrderID', 'CustomerID', 'EmployeeID', 'OrderDate', 'ShipCountry'],
+                        resultsRows: [
+                            ['10248', 'VINET', '5', '04/07/1996', 'France'],
+                            ['10251', 'VICTE', '3', '08/07/1996', 'France'],
+                            ['10265', 'BLONP', '2', '25/07/1996', 'France'],
+                            ['10274', 'VINET', '6', '06/08/1996', 'France'],
+                            ['10295', 'VINET', '2', '02/09/1996', 'France']
+                        ]
+                    },
+                    {
+                        id: 'nw-proy-1',
+                        db: 'Northwind',
+                        type: 'proyección',
+                        buttonNumber: 4,
+                        title: 'Datos esenciales de Productos',
+                        description: 'Extrae un subconjunto restringido de atributos que representan los identificadores, denominaciones comerciales y el costo unitario de los productos de la base de datos.',
+                        mathSymbol: '\\pi_{\\text{ProductID, ProductName, UnitPrice}}(\\text{Product})',
+                        code: 'using (NorthwindEntities northwind = new NorthwindEntities())\n{\n    var consulta = from P in northwind.Product\n                   select new\n                   {\n                       P.ProductID,\n                       P.ProductName,\n                       P.UnitPrice\n                   };\n                   \n    dgvNorthwind.DataSource = consulta.ToList();\n}',
+                        resultsHeader: ['ProductID', 'ProductName', 'UnitPrice'],
+                        resultsRows: [
+                            ['1', 'Chai', '18.0000'],
+                            ['2', 'Chang', '19.0000'],
+                            ['3', 'Aniseed Syrup', '10.0000'],
+                            ['4', 'Chef Anton\'s Cajun Seasoning', '22.0000'],
+                            ['5', 'Chef Anton\'s Gumbo Mix', '21.3500']
+                        ]
+                    },
+                    {
+                        id: 'nw-proy-2',
+                        db: 'Northwind',
+                        type: 'proyección',
+                        buttonNumber: 5,
+                        title: 'Contacto de Clientes',
+                        description: 'Reduce el esquema original de Customers para visualizar exclusivamente la identidad primaria, nombre del gestor asignado y el número telefónico.',
+                        mathSymbol: '\\pi_{\\text{CustomerID, ContactName, Phone}}(\\text{Customers})',
+                        code: 'using (NorthwindEntities northwind = new NorthwindEntities())\n{\n    var consulta = from C in northwind.Customers\n                   select new\n                   {\n                       C.CustomerID,\n                       C.ContactName,\n                       C.Phone\n                   };\n                   \n    dgvNorthwind.DataSource = consulta.ToList();\n}',
+                        resultsHeader: ['CustomerID', 'ContactName', 'Phone'],
+                        resultsRows: [
+                            ['ALFKI', 'Maria Anders', '030-0074321'],
+                            ['ANATR', 'Ana Trujillo', '(5) 555-4729'],
+                            ['ANTON', 'Antonio Moreno', '(5) 555-3932'],
+                            ['AROUT', 'Thomas Hardy', '(171) 555-7788'],
+                            ['BERGS', 'Christina Berglund', '0921-12 34 65']
+                        ]
+                    },
+                    {
+                        id: 'nw-proy-3',
+                        db: 'Northwind',
+                        type: 'proyección',
+                        buttonNumber: 6,
+                        title: 'Ciudades de Clientes sin duplicados',
+                        description: 'Genera el listado de ciudades de residencia aplicando la operación Distinct para remover redundancias geográficas en los registros.',
+                        mathSymbol: '\\pi_{\\text{City, Country}}(\\text{Customers})',
+                        code: 'using (NorthwindEntities northwind = new NorthwindEntities())\n{\n    var consulta = (from C in northwind.Customers\n                    select new\n                    {\n                        C.City,\n                        C.Country\n                    }).Distinct();\n                    \n    dgvNorthwind.DataSource = consulta.ToList();\n}',
+                        resultsHeader: ['City', 'Country'],
+                        resultsRows: [
+                            ['Aachen', 'Germany'],
+                            ['Albuquerque', 'USA'],
+                            ['Anchorage', 'USA'],
+                            ['Arhus', 'Denmark'],
+                            ['Barcelona', 'Spain']
+                        ]
+                    },
+                    {
+                        id: 'nw-ren-1',
+                        db: 'Northwind',
+                        type: 'renombramiento',
+                        buttonNumber: 7,
+                        title: 'Traducir campos de Empleados',
+                        description: 'Aplica nombres contextuales legibles al español a los metadatos de los empleados para consumo de interfaces externas de dgv.',
+                        mathSymbol: '\\rho_{\\text{CodigoEmpleado} \\leftarrow \\text{EmployeeID}, \\text{Nombre} \\leftarrow \\text{FirstName}, \\text{Apellido} \\leftarrow \\text{LastName}}(\\text{Employee})',
+                        code: 'using (NorthwindEntities northwind = new NorthwindEntities())\n{\n    var consulta = from E in northwind.Employee\n                   select new\n                   {\n                       CodigoEmpleado = E.EmployeeID,\n                       Nombre = E.FirstName,\n                       Apellido = E.LastName\n                   };\n                   \n    dgvNorthwind.DataSource = consulta.ToList();\n}',
+                        resultsHeader: ['CodigoEmpleado', 'Nombre', 'Apellido'],
+                        resultsRows: [
+                            ['1', 'Nancy', 'Davolio'],
+                            ['2', 'Andrew', 'Fuller'],
+                            ['3', 'Janet', 'Leverling'],
+                            ['4', 'Margaret', 'Peacock'],
+                            ['5', 'Steven', 'Buchanan']
+                        ]
+                    },
+                    {
+                        id: 'nw-ren-2',
+                        db: 'Northwind',
+                        type: 'renombramiento',
+                        buttonNumber: 8,
+                        title: 'Traducir campos de Compañías de Envío',
+                        description: 'Aplica etiquetas de negocio amigables a la información de despacho y canales de transporte.',
+                        mathSymbol: '\\rho_{\\text{CodigoEnvio} \\leftarrow \\text{ShipperID}, \\text{EmpresaTransporte} \\leftarrow \\text{CompanyName}, \\text{NumeroContacto} \\leftarrow \\text{Phone}}(\\text{Shipper})',
+                        code: 'using (NorthwindEntities northwind = new NorthwindEntities())\n{\n    var consulta = from S in northwind.Shipper\n                   select new\n                   {\n                       CodigoEnvio = S.ShipperID,\n                       EmpresaTransporte = S.CompanyName,\n                       NumeroContacto = S.Phone\n                   };\n                   \n    dgvNorthwind.DataSource = consulta.ToList();\n}',
+                        resultsHeader: ['CodigoEnvio', 'EmpresaTransporte', 'NumeroContacto'],
+                        resultsRows: [
+                            ['1', 'Speedy Express', '(503) 555-9831'],
+                            ['2', 'United Package', '(503) 555-3199'],
+                            ['3', 'Federal Shipping', '(503) 555-9931']
+                        ]
+                    },
+                    {
+                        id: 'nw-ren-3',
+                        db: 'Northwind',
+                        type: 'renombramiento',
+                        buttonNumber: 9,
+                        title: 'Campos personalizados para Categorías',
+                        description: 'Reconstruye el esquema conceptual de la tabla Categorías para adaptarlo a un sistema de auditoría básica.',
+                        mathSymbol: '\\rho_{\\text{CodigoCategoria} \\leftarrow \\text{CategoryID}, \\text{NombreCategoria} \\leftarrow \\text{CategoryName}, \\text{Detalle} \\leftarrow \\text{Description}}(\\text{Category})',
+                        code: 'using (NorthwindEntities northwind = new NorthwindEntities())\n{\n    var consulta = from C in northwind.Category\n                   select new\n                   {\n                       CodigoCategoria = C.CategoryID,\n                       NombreCategoria = C.CategoryName,\n                       Detalle = C.Description\n                   };\n                   \n    dgvNorthwind.DataSource = consulta.ToList();\n}',
+                        resultsHeader: ['CodigoCategoria', 'NombreCategoria', 'Detalle'],
+                        resultsRows: [
+                            ['1', 'Beverages', 'Soft drinks, coffees, teas, beers...'],
+                            ['2', 'Condiments', 'Sweet and savory sauces, relishes...'],
+                            ['3', 'Confections', 'Desserts, candies, and sweet breads...'],
+                            ['4', 'Dairy Products', 'Cheeses...'],
+                            ['5', 'Grains/Cereals', 'Breads, crackers, pasta, and cereal...']
+                        ]
+                    },
+                    {
+                        id: 'nw-uni-1',
+                        db: 'Northwind',
+                        type: 'unión',
+                        buttonNumber: 1,
+                        title: 'Clientes de Alemania + Clientes de Francia',
+                        description: 'Fusiona dos consultas unarias idénticas de países separados en un conjunto consistente sin registros duplicados.',
+                        mathSymbol: '\\sigma_{\\text{Country}=\\text{"Germany"}}(\\text{Customers}) \\cup \\sigma_{\\text{Country}=\\text{"France"}}(\\text{Customers})',
+                        code: 'using (NorthwindEntities northwind = new NorthwindEntities())\n{\n    var consulta1 = from C in northwind.Customers\n                    where C.Country == "Germany"\n                    select new { C.CustomerID, C.CompanyName, C.Country };\n                    \n    var consulta2 = from C in northwind.Customers\n                    where C.Country == "France"\n                    select new { C.CustomerID, C.CompanyName, C.Country };\n                    \n    var consultaFinal = consulta1.Union(consulta2);\n    dgvNorthwind.DataSource = consultaFinal.ToList();\n}',
+                        resultsHeader: ['CustomerID', 'CompanyName', 'Country'],
+                        resultsRows: [
+                            ['ALFKI', 'Alfreds Futterkiste', 'Germany'],
+                            ['BLAUS', 'Blauer See Delikatessen', 'Germany'],
+                            ['BLONP', 'Blondesddsl père et fils', 'France'],
+                            ['BONAP', 'Bon app\'', 'France'],
+                            ['DUMON', 'Du monde entier', 'France']
+                        ]
+                    },
+                    {
+                        id: 'nw-dif-1',
+                        db: 'Northwind',
+                        type: 'diferencia',
+                        buttonNumber: 4,
+                        title: 'Clientes del mundo EXCEPTO los de USA',
+                        description: 'Aplica la resta relacional (Except) entre el conjunto universal de clientes y el grupo específico con residencia en Norteamérica.',
+                        mathSymbol: '\\text{Customers} - \\sigma_{\\text{Country}=\\text{"USA"}}(\\text{Customers})',
+                        code: 'using (NorthwindEntities northwind = new NorthwindEntities())\n{\n    var consulta1 = from C in northwind.Customers\n                    select new { C.CustomerID, C.CompanyName, C.Country };\n                    \n    var consulta2 = from C in northwind.Customers\n                    where C.Country == "USA"\n                    select new { C.CustomerID, C.CompanyName, C.Country };\n                    \n    var consultaFinal = consulta1.Except(consulta2);\n    dgvNorthwind.DataSource = consultaFinal.ToList();\n}',
+                        resultsHeader: ['CustomerID', 'CompanyName', 'Country'],
+                        resultsRows: [
+                            ['ALFKI', 'Alfreds Futterkiste', 'Germany'],
+                            ['ANATR', 'Ana Trujillo Emparedados', 'Mexico'],
+                            ['AROUT', 'Around the Horn', 'UK'],
+                            ['BERGS', 'Berglunds snabbköp', 'Sweden'],
+                            ['BOLID', 'Bólido Comidas preparadas', 'Spain']
+                        ]
+                    },
+                    {
+                        id: 'nw-pc-1',
+                        db: 'Northwind',
+                        type: 'producto cartesiano',
+                        buttonNumber: 7,
+                        title: 'Cruzar Empleados con Regiones',
+                        description: 'Empareja de forma exhaustiva y combinatoria cada empleado registrado con la totalidad de regiones comerciales (Cruce Total sin restricción).',
+                        mathSymbol: '\\text{Employee} \\times \\text{Region}',
+                        code: 'using (NorthwindEntities northwind = new NorthwindEntities())\n{\n    var consultaFinal = from E in northwind.Employee\n                        from R in northwind.Region\n                        select new\n                        {\n                            E.EmployeeID,\n                            E.LastName,\n                            R.RegionID,\n                            R.RegionDescription\n                        };\n                        \n    dgvNorthwind.DataSource = consultaFinal.ToList();\n}',
+                        resultsHeader: ['EmployeeID', 'LastName', 'RegionID', 'RegionDescription'],
+                        resultsRows: [
+                            ['1', 'Davolio', '1', 'Eastern'],
+                            ['2', 'Fuller', '1', 'Eastern'],
+                            ['3', 'Leverling', '1', 'Eastern'],
+                            ['1', 'Davolio', '2', 'Western'],
+                            ['2', 'Fuller', '2', 'Western']
+                        ]
+                    },
+
+                    // --- PUBS ---
+                    {
+                        id: 'pb-sel-1',
+                        db: 'Pubs',
+                        type: 'selección',
+                        buttonNumber: 1,
+                        title: 'Autores de California ("CA")',
+                        description: 'Aísla exclusivamente las tuplas del gremio de autores cuya base geográfica de trabajo es California.',
+                        mathSymbol: '\\sigma_{\\text{state} = \\text{"CA"}}(\\text{authors})',
+                        code: 'using (pubslasfuerzasEntities pubs = new pubslasfuerzasEntities())\n{\n    var consulta = from A in pubs.authors\n                   where A.state == "CA"\n                   select A;\n                   \n    dgvPubs.DataSource = consulta.ToList();\n}',
+                        resultsHeader: ['au_id', 'au_lname', 'au_fname', 'city', 'state'],
+                        resultsRows: [
+                            ['172-32-1176', 'White', 'Johnson', 'Menlo Park', 'CA'],
+                            ['213-46-8915', 'Green', 'Marjorie', 'Oakland', 'CA'],
+                            ['238-95-7765', 'Carson', 'Cheryl', 'Berkeley', 'CA'],
+                            ['267-41-2394', 'O\'Leary', 'Michael', 'San Jose', 'CA']
+                        ]
+                    },
+                    {
+                        id: 'pb-proy-1',
+                        db: 'Pubs',
+                        type: 'proyección',
+                        buttonNumber: 4,
+                        title: 'Columnas Básicas de Autores',
+                        description: 'Proyecta un esquema resumido compuesto únicamente por los nombres primarios, apellidos y datos de localización de contacto.',
+                        mathSymbol: '\\pi_{\\text{au\\_fname, au\\_lname, phone}}(\\text{authors})',
+                        code: 'using (pubslasfuerzasEntities pubs = new pubslasfuerzasEntities())\n{\n    var consulta = from A in pubs.authors\n                   select new\n                   {\n                       A.au_fname,\n                       A.au_lname,\n                       A.phone\n                   };\n                   \n    dgvPubs.DataSource = consulta.ToList();\n}',
+                        resultsHeader: ['au_fname', 'au_lname', 'phone'],
+                        resultsRows: [
+                            ['Johnson', 'White', '408 496-7223'],
+                            ['Marjorie', 'Green', '415 906-7020'],
+                            ['Cheryl', 'Carson', '415 548-7723'],
+                            ['Michael', 'O\'Leary', '400 286-2428']
+                        ]
+                    },
+                    {
+                        id: 'pb-ren-1',
+                        db: 'Pubs',
+                        type: 'renombramiento',
+                        buttonNumber: 7,
+                        title: 'Traducir atributos de la tabla "titles"',
+                        description: 'Establece etiquetas de visualización en español para los metadatos globales del catálogo editorial.',
+                        mathSymbol: '\\rho_{\\text{CodigoLibro}\\leftarrow\\text{title\\_id},\\text{NombreLibro}\\leftarrow\\text{title}}(\\text{titles})',
+                        code: 'using (pubslasfuerzasEntities pubs = new pubslasfuerzasEntities())\n{\n    var consulta = from T in pubs.titles\n                   select new\n                   {\n                       CodigoLibro = T.title_id,\n                       NombreLibro = T.title,\n                       PrecioVenta = T.price,\n                       FechaPublicacion = T.pubdate\n                   };\n                   \n    dgvPubs.DataSource = consulta.ToList();\n}',
+                        resultsHeader: ['CodigoLibro', 'NombreLibro', 'PrecioVenta', 'FechaPublicacion'],
+                        resultsRows: [
+                            ['BU1032', 'The Busy Executive\'s Database Guide', '19.9900', '12/06/1991'],
+                            ['BU1111', 'Cooking with Computers: Surreptitious...', '11.9500', '09/06/1991'],
+                            ['BU2075', 'You Can Combat Computer Stress!', '2.9900', '30/06/1991'],
+                            ['BU7832', 'Straight Talk About Computers', '19.9900', '22/06/1991']
+                        ]
+                    },
+                    {
+                        id: 'pb-uni-1',
+                        db: 'Pubs',
+                        type: 'unión',
+                        buttonNumber: 10,
+                        title: 'Autores de CA + Autores de UT',
+                        description: 'Consolida la información de autores residentes en los estados de California y Utah mediante teoría de conjuntos.',
+                        mathSymbol: '\\sigma_{\\text{state}="CA"}(\\text{authors}) \\cup \\sigma_{\\text{state}="UT"}(\\text{authors})',
+                        code: 'using (pubslasfuerzasEntities pubs = new pubslasfuerzasEntities())\n{\n    var consulta1 = from A in pubs.authors\n                    where A.state == "CA"\n                    select new { A.au_id, A.city, A.state };\n                    \n    var consulta2 = from A in pubs.authors\n                    where A.state == "UT"\n                    select new { A.au_id, A.city, A.state };\n                    \n    var consultaFinal = consulta1.Union(consulta2);\n    dgvPubs.DataSource = consultaFinal.ToList();\n}',
+                        resultsHeader: ['au_id', 'city', 'state'],
+                        resultsRows: [
+                            ['172-32-1176', 'Menlo Park', 'CA'],
+                            ['213-46-8915', 'Oakland', 'CA'],
+                            ['899-46-2035', 'Salt Lake City', 'UT'],
+                            ['998-72-3567', 'Salt Lake City', 'UT']
+                        ]
+                    },
+                    {
+                        id: 'pb-dif-1',
+                        db: 'Pubs',
+                        type: 'diferencia',
+                        buttonNumber: 13,
+                        title: 'Libros con precio > 15 exceptuando ventas < 4000',
+                        description: 'Resta del grupo de libros con precio mayor a 15, aquellas ediciones que no han superado un umbral de éxito comercial histórico (volumen de ventas < 4000).',
+                        mathSymbol: '\\sigma_{\\text{price}>15}(\\text{titles}) - \\sigma_{\\text{ytd\\_sales}<4000}(\\text{titles})',
+                        code: 'using (pubslasfuerzasEntities pubs = new pubslasfuerzasEntities())\n{\n    var consulta1 = from T in pubs.titles\n                    where T.price > 15\n                    select new { T.title_id, T.title, T.price };\n                    \n    var consulta2 = from T in pubs.titles\n                    where T.ytd_sales < 4000\n                    select new { T.title_id, T.title, T.price };\n                    \n    var consultaFinal = consulta1.Except(consulta2);\n    dgvPubs.DataSource = consultaFinal.ToList();\n}',
+                        resultsHeader: ['title_id', 'title', 'price'],
+                        resultsRows: [
+                            ['BU1032', 'The Busy Executive\'s Database Guide', '19.9900'],
+                            ['BU7832', 'Straight Talk About Computers', '19.9900'],
+                            ['PC1035', 'But Is It User Friendly?', '22.9500']
+                        ]
+                    },
+                    {
+                        id: 'pb-pc-1',
+                        db: 'Pubs',
+                        type: 'producto cartesiano',
+                        buttonNumber: 16,
+                        title: 'Cruce Total Autores × Editoriales',
+                        description: 'Produce combinaciones cruzadas absolutas que permiten analizar la asignación hipotética de cualquier autor con todas las firmas editoras disponibles.',
+                        mathSymbol: '\\text{authors} \\times \\text{publishers}',
+                        code: 'using (pubslasfuerzasEntities pubs = new pubslasfuerzasEntities())\n{\n    var consultaFinal = from A in pubs.authors\n                        from P in pubs.publishers\n                        select new\n                        {\n                            A.au_id,\n                            A.au_fname,\n                            P.pub_id,\n                            P.pub_name\n                        };\n                        \n    dgvPubs.DataSource = consultaFinal.ToList();\n}',
+                        resultsHeader: ['au_id', 'au_fname', 'pub_id', 'pub_name'],
+                        resultsRows: [
+                            ['172-32-1176', 'Johnson', '0736', 'New Moon Books'],
+                            ['213-46-8915', 'Marjorie', '0736', 'New Moon Books'],
+                            ['172-32-1176', 'Johnson', '0877', 'Binnet & Hardley'],
+                            ['213-46-8915', 'Marjorie', '0877', 'Binnet & Hardley']
+                        ]
+                    }
+                ],
+
+                init() {
+                    // Cargar ejercicio por defecto al iniciar
+                    this.activeExercise = this.exercises[0];
+                },
+
+                setDatabase(dbName) {
+                    this.selectedDb = dbName;
+                    this.selectedCategory = 'TODOS';
+                    // Buscar primer ejercicio de la base de datos elegida
+                    this.activeExercise = this.exercises.find(ex => ex.db === dbName);
+                },
+
+                filteredExercises() {
+                    return this.exercises.filter(ex => {
+                        const dbMatch = ex.db === this.selectedDb;
+                        const catMatch = this.selectedCategory === 'TODOS' || ex.type.toUpperCase() === this.selectedCategory;
+                        return dbMatch && catMatch;
+                    });
+                },
+
+                selectExercise(ex) {
+                    this.activeExercise = ex;
+                },
+
+                renderKatex(formula, elementId) {
+                    this.$nextTick(() => {
+                        const element = document.getElementById(elementId);
+                        if (element && window.katex) {
+                            try {
+                                window.katex.render(formula, element, {
+                                    throwOnError: false,
+                                    displayMode: false
+                                });
+                            } catch (err) {
+                                console.error(err);
+                            }
+                        }
+                    });
+                    return ''; // Se renderiza de manera asíncrona mediante KaTeX
+                },
+
+                copyToClipboard(text) {
+                    // Método fallback seguro según CSP del frame
+                    const tempInput = document.createElement('textarea');
+                    tempInput.value = text;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
